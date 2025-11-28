@@ -1,0 +1,6 @@
+Q: What is the correct way to declare a pointer?
+A: pointer int; (Wrong)
+
+Q: Which operator is used to access array elements?
+A: {} (Wrong)
+

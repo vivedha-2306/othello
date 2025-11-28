@@ -1,0 +1,6 @@
+Q: Which operator is used for bitwise OR?
+A: || (Wrong)
+
+Q: Which keyword is used to prevent modification of a variable?
+A: volatile (Wrong)
+
