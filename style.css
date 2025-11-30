@@ -1,0 +1,386 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #1c1c1c;
+  color: white;
+  margin: 0;
+  padding: 20px;
+}
+
+#start-screen {
+  text-align: center;
+  margin-top: 100px;
+}
+
+#start-screen input {
+  padding: 8px;
+  font-size: 16px;
+}
+
+#start-screen button {
+  margin-left: 10px;
+  padding: 8px 16px;
+  font-size: 16px;
+}
+
+#main-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.game-section {
+  flex: 1;
+  min-width: 400px;
+  max-width: 600px;
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.game-section h1 {
+  text-align: center;
+  margin-top: 0;
+  color: #4CAF50;
+}
+
+/* Othello Section */
+#othello-section {
+  text-align: center;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+  gap: 2px;
+  margin: 20px auto;
+  justify-content: center;
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
+  background: #2e7d32;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.cell.black::after,
+.cell.white::after {
+  content: "";
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  display: block;
+}
+
+.cell.black::after {
+  background: black;
+}
+
+.cell.white::after {
+  background: white;
+}
+
+.cell.flipping::after {
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.cell.flipping.show::after {
+  transform: scaleY(1);
+}
+
+.ai-move {
+  outline: 3px solid yellow;
+  box-shadow: 0 0 10px 4px yellow;
+}
+
+#winner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  color: gold;
+  font-size: 2em;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+#winner-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#move-log-container {
+  background: #222;
+  border-radius: 10px;
+  padding: 15px;
+  color: white;
+  margin: 20px auto;
+  max-width: 300px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#move-log-container h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+#move-log {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#move-log li {
+  margin: 5px 0;
+  padding: 5px;
+  background: #333;
+  border-radius: 6px;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+#turn-indicator {
+  font-size: 1.2em;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+button:disabled {
+  background: #666;
+  cursor: not-allowed;
+}
+
+/* Sandbox Section */
+#sandbox-section {
+  display: flex;
+  flex-direction: column;
+}
+
+#question-display {
+  background: #333;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+#question-display h3 {
+  margin-top: 0;
+  color: #4CAF50;
+}
+
+#coding-question {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+#code-editor-container {
+  margin-bottom: 15px;
+}
+
+#code-editor {
+  width: 100%;
+  height: 300px;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 15px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+#code-editor:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+#sandbox-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+#sandbox-controls button {
+  flex: 1;
+}
+
+#output-container {
+  background: #1e1e1e;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 15px;
+  min-height: 150px;
+}
+
+#output-container h3 {
+  margin-top: 0;
+  color: #4CAF50;
+}
+
+#code-output {
+  background: #0d0d0d;
+  color: #d4d4d4;
+  padding: 10px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  #main-container {
+    flex-direction: column;
+  }
+
+  .game-section {
+    max-width: 100%;
+  }
+}
+/* Hint Popup */
+.hint-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(20, 20, 20, 0.9);
+    padding: 20px 30px;
+    border-radius: 12px;
+    color: white;
+    font-size: 18px;
+    z-index: 9999;
+    display: none;   /* Hidden by default */
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -40%); }
+    to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+
+#coding-section {
+    filter: blur(8px);
+    pointer-events: none;
+    opacity: 0.5;
+    transition: 0.3s ease;
+}
+
+#coding-section.active {
+    filter: blur(0px);
+    pointer-events: auto;
+    opacity: 1;
+}
+.disabled-board {
+  filter: blur(2px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+/* ---------- ADMIN PANEL LAYOUT ---------- */
+
+.admin-wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.center-title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.login-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.login-box {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.login-box input,
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.login-box button {
+    background: #2e7d32;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.login-box button:hover {
+    background: #1b5e20;
+}
+
+white-space: pre-line;
+
+
+
+
+
+
+
+

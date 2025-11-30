@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Othello Game</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .login-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-radius: 25px;
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 25px;
+        }
+        .tab-btn.active {
+            background: #3b82f6;
+            color: #fff;
+        }
+        .tab-btn.inactive {
+            color: #9ca3af;
+            opacity: 0.7;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .player-login-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .player-login-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+        .admin-login-btn {
+            background: #3b82f6;
+            color: #fff;
+        }
+        .admin-login-btn:hover {
+            background: #2563eb;
+        }
+        .upload-section {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .upload-section.active {
+            display: block;
+        }
+        .upload-section h3 {
+            margin: 0 0 10px;
+            color: #374151;
+        }
+        .footer-text {
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 15px;
+        }
+        #admin-upload input[type="file"] {
+            padding: 8px;
+            background: #f9fafb;
+            border: 1px dashed #d1d5db;
+        }
+        #upload-question-btn {
+            background: #10b981;
+            color: #fff;
+            margin-top: 10px;
+        }
+        #upload-question-btn:hover {
+            background: #059669;
+        }
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        .success-message2 {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-card">
+    <div class="tabs">
+        <button class="tab-btn inactive" onclick="switchTab('player')" id="player-tab-btn">Player Login</button>
+        <button class="tab-btn active" onclick="switchTab('admin')" id="admin-tab-btn">Admin Login</button>
+    </div>
+
+    <!-- Player Login Tab -->
+    <div id="player-tab" class="tab-content">
+        <input type="email" id="player-email" placeholder="Email">
+        <input type="password" id="player-password" placeholder="Password">
+        <button class="player-login-btn" id="player-login-btn">Login & Play</button>
+        <p class="footer-text">Login to access your personal game session.</p>
+    </div>
+
+    <!-- Admin Login Tab -->
+    <div id="admin-tab" class="tab-content active">
+        <input type="email" id="admin-email" placeholder="Email">
+        <input type="password" id="admin-password" placeholder="Password">
+        <button class="admin-login-btn" id="admin-login-btn">Login</button>
+
+        <div id="admin-upload" class="upload-section">
+
+            <h3>Upload Question (.txt)</h3>
+            <input type="file" id="question-file" accept=".txt">
+            <button id="upload-question-btn">Upload</button>
+            <div id="upload-success" class="success-message">Question uploaded successfully!</div>
+
+            <h3 style="margin-top:20px;">Upload Player Login (.xlsx)</h3>
+            <input type="file" id="playerlogin-file" accept=".xlsx">
+            <button id="upload-playerlogin-btn">Upload Player Login File</button>
+            <div id="playerlogin-success" class="success-message2">Player Login file uploaded successfully!</div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const ADMIN_API = "http://localhost:8080/api/othello/admin";
+    const PLAYER_API = "http://localhost:8080/api/othello";
+
+    let adminLoggedIn = false;
+    let questionUploaded = false;
+    let playerFileUploaded = false;
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active', 'inactive'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+        if (tab === 'player') {
+            document.getElementById('player-tab').classList.add('active');
+            document.getElementById('player-tab-btn').classList.add('active');
+            document.getElementById('admin-tab-btn').classList.add('inactive');
+        } else {
+            document.getElementById('admin-tab').classList.add('active');
+            document.getElementById('player-tab-btn').classList.add('inactive');
+            document.getElementById('admin-tab-btn').classList.add('active');
+        }
+    }
+
+    document.getElementById("admin-login-btn").addEventListener("click", async () => {
+        const email = document.getElementById("admin-email").value.trim();
+        const password = document.getElementById("admin-password").value.trim();
+
+        if (!email || !password) {
+            alert("Enter email & password");
+            return;
+        }
+
+        const res = await fetch(`${ADMIN_API}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+            alert("Invalid admin login!");
+            return;
+        }
+
+        adminLoggedIn = true;
+        document.getElementById("admin-upload").classList.add("active");
+    });
+
+    document.getElementById("upload-question-btn").addEventListener("click", async () => {
+        if (!adminLoggedIn) {
+            alert("Please login as admin first");
+            return;
+        }
+
+        const file = document.getElementById("question-file").files[0];
+        if (!file) {
+            alert("Please select a .txt file");
+            return;
+        }
+
+        const form = new FormData();
+        form.append("file", file);
+
+        const res = await fetch(`${ADMIN_API}/upload`, {
+            method: "POST",
+            body: form
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+            alert("Upload failed: " + data.message);
+            return;
+        }
+
+        questionUploaded = true;
+        document.getElementById("upload-success").style.display = "block";
+    });
+
+    document.getElementById("upload-playerlogin-btn").addEventListener("click", async () => {
+        if (!adminLoggedIn) {
+            alert("Please login first");
+            return;
+        }
+
+        const file = document.getElementById("playerlogin-file").files[0];
+        if (!file) {
+            alert("Please select playerlogin.xlsx");
+            return;
+        }
+
+        const form = new FormData();
+        form.append("file", file);
+
+        const res = await fetch(`${ADMIN_API}/uploadPlayerFile`, {
+            method: "POST",
+            body: form
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+            alert("Upload failed: " + data.message);
+            return;
+        }
+
+        playerFileUploaded = true;
+        document.getElementById("playerlogin-success").style.display = "block";
+
+        if (questionUploaded && playerFileUploaded) {
+            setTimeout(() => switchTab('player'), 1200);
+        }
+    });
+
+    document.getElementById("player-login-btn").addEventListener("click", async () => {
+    const u = document.getElementById("player-email").value.trim();
+    const p = document.getElementById("player-password").value.trim();
+
+    if (!u || !p) {
+        alert("Enter username and password");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${PLAYER_API}/player/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: u, password: p })
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+            alert("Invalid credentials");
+            return;
+        }
+
+        sessionStorage.setItem("username", u);
+        sessionStorage.setItem("playerLogged", "true");
+
+        alert("Login successful! Redirecting...");
+
+        window.location.href = "game.html";
+
+    } catch (err) {
+        alert("Login error: " + err.message);
+    }
+});
+
+</script>
+
+</body>
+</html>

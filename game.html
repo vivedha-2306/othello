@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Othello Game + Coding Sandbox</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- START SCREEN -->
+<div id="start-screen" class="overlay">
+    <h1>Othello</h1>
+
+    <!-- PLAYER NAME -->
+    <h2>Enter your name to start</h2>
+    <input type="text" id="player-name" placeholder="Enter name">
+
+    <!-- Only after login (now checked via sessionStorage) -->
+    <button id="start-btn" style="display:none;">Start Game</button>
+</div>
+
+<!-- MAIN GAME SECTION -->
+<div id="main-container" style="display:none;">
+
+    <!-- 🟩 OTHELLO GAME -->
+    <div id="othello-section" class="game-section">
+        <h1>Othello Game</h1>
+
+        <div id="turn-indicator">Current Turn: Black</div>
+        <div id="board"></div>
+
+        <div id="winner-overlay">
+            <span id="winner-text"></span>
+        </div>
+
+        <div id="move-log-container">
+            <h3>🧩 Black Player Moves</h3>
+            <ul id="move-log"></ul>
+        </div>
+
+        <button id="reset">Reset Game</button>
+    </div>
+
+    <!-- 💻 CODING SANDBOX -->
+    <div id="sandbox-section" class="game-section">
+        <h1>Coding Sandbox</h1>
+
+        <div id="question-display">
+            <h3>Question:</h3>
+            <p id="coding-question">Waiting for admin to upload question...</p>
+
+            <pre id="testcases" class="testcase-box"></pre>
+
+            <div id="coding-timer" class="coding-timer"></div>
+            <div id="hints-block" class="hints-block"></div>
+        </div>
+
+        <!-- CODE EDITOR -->
+        <div id="code-editor-container">
+                <textarea id="code-editor" placeholder="#include <stdio.h>
+int main() {
+    // your code here
+    return 0;
+}"></textarea>
+        </div>
+
+        <!-- CONTROLS -->
+        <div id="sandbox-controls">
+            <button id="run-code-btn">Run & Submit Code</button>
+            <button id="clear-code-btn">Clear</button>
+        </div>
+
+        <!-- OUTPUT -->
+        <div id="output-container">
+            <h3>Output:</h3>
+            <pre id="code-output">Output will appear here...</pre>
+        </div>
+
+        <div id="recommendation-feedback" class="recommendation-popup"></div>
+    </div>
+</div>
+
+<!-- CENTER POPUP FOR HINTS -->
+<div id="hint-popup" class="hint-popup" style="display:none;">
+    <div class="hint-box">
+        <p id="hint-text"></p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
