@@ -5,7 +5,7 @@
 // - full timer + hints + recommendation + board repaint fixes
 // - post-success: coding section inactive (disabled) but no blur
 
-const API = "http://localhost:8080/api/othello";
+const API = "https://othellogame-48.onrender.com/api/othello";
 const boardSize = 8;
 
 // DOM
@@ -690,3 +690,4 @@ function updateTurnIndicator(cp) {
     if (!indicator) return;
     indicator.textContent = `Current Turn: ${cp === 1 ? "Black" : "White"}`;
 }
+
